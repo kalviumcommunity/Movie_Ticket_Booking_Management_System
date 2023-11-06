@@ -141,3 +141,35 @@ WHERE UserID = 3;
 
 SELECT MovieID, Title, Genre, Duration, ReleaseDate, Rating, Language
 FROM Movie;
+
+
+SELECT Genre, Title, Rating
+FROM (
+    SELECT Genre, Title, Rating, 
+           ROW_NUMBER() OVER (PARTITION BY Genre ORDER BY Rating DESC) AS RowNum
+    FROM Movie
+) AS RankedMovies
+WHERE RowNum <= 5;
+
+
+
+
+FROM Theater t
+INNER JOIN Showtime s ON t.TheaterID = s.TheaterID
+INNER JOIN Movie m ON s.MovieID = m.MovieID
+GROUP BY t.City, t.Name
+ORDER BY t.City, AvgRating DESC;
+SELECT t.City, t.Name AS TheaterName, AVG(m.Rating) AS AvgRating
+
+
+
+
+FROM Theater t
+INNER JOIN Showtime s ON t.TheaterID = s.TheaterID
+INNER JOIN Movie m ON s.MovieID = m.MovieID
+INNER JOIN Booking b ON s.ShowtimeID = b.ShowtimeID
+WHERE m.Title = 'Inception'
+GROUP BY t.Name
+ORDER BY TotalRevenue DESC
+LIMIT 5;
+SELECT t.Name AS TheaterName, SUM(b.TotalPrice) AS TotalRevenue
