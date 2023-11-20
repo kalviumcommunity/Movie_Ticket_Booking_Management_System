@@ -15,15 +15,6 @@ CREATE TABLE Movie (
 ALTER TABLE Movie
 ADD Language VARCHAR(50);
 
-CREATE TABLE Theater (
-    TheaterID INT PRIMARY KEY,
-    Name VARCHAR(255),
-    Address VARCHAR(255),
-    City VARCHAR(50),
-    State VARCHAR(50),
-    ZipCode VARCHAR(10),
-    ContactInformation VARCHAR(255)
-);
 
 CREATE TABLE Showtime (
     ShowtimeID INT PRIMARY KEY,
@@ -153,17 +144,16 @@ WHERE RowNum <= 5;
 
 
 
-
+SELECT t.City, t.Name AS TheaterName, AVG(m.Rating) AS AvgRating
 FROM Theater t
 INNER JOIN Showtime s ON t.TheaterID = s.TheaterID
 INNER JOIN Movie m ON s.MovieID = m.MovieID
 GROUP BY t.City, t.Name
 ORDER BY t.City, AvgRating DESC;
-SELECT t.City, t.Name AS TheaterName, AVG(m.Rating) AS AvgRating
 
 
 
-
+SELECT t.Name AS TheaterName, SUM(b.TotalPrice) AS TotalRevenue
 FROM Theater t
 INNER JOIN Showtime s ON t.TheaterID = s.TheaterID
 INNER JOIN Movie m ON s.MovieID = m.MovieID
@@ -172,4 +162,3 @@ WHERE m.Title = 'Inception'
 GROUP BY t.Name
 ORDER BY TotalRevenue DESC
 LIMIT 5;
-SELECT t.Name AS TheaterName, SUM(b.TotalPrice) AS TotalRevenue
