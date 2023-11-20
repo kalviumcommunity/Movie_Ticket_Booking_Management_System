@@ -2,6 +2,23 @@ CREATE DATABASE Movie_Ticket_Booking_Management_System;
 
 USE Movie_Ticket_Booking_Management_System;
 
+CREATE ROLE UserRole;
+CREATE ROLE AdminRole;
+
+GRANT SELECT ON Movie, Showtime, Seat TO UserRole;
+GRANT INSERT, UPDATE, DELETE ON Booking TO UserRole;
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON Movie, Showtime, Seat, User, Administrator TO AdminRole;
+GRANT SELECT, UPDATE ON Booking TO AdminRole;
+
+
+GRANT UserRole TO john_doe;
+GRANT AdminRole TO admin1;
+
+
+REVOKE UserRole FROM john_doe;
+
+
 CREATE TABLE Movie (
     MovieID INT PRIMARY KEY,
     Title VARCHAR(255),
